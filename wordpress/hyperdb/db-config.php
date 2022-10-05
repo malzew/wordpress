@@ -226,7 +226,7 @@ $wpdb->add_database(array(
  * The last three parameters are set to the defaults but are shown for clarity.
  */
 $wpdb->add_database(array(
-	'host'     => DB_SLAVE,     // If port is other than 3306, use host:port.
+	'host'     => DB_HOST,     // If port is other than 3306, use host:port.
 	'user'     => DB_USER,
 	'password' => DB_PASSWORD,
 	'name'     => DB_NAME,

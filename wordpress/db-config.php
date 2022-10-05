@@ -219,21 +219,40 @@ $wpdb->add_database(array(
 	'user'     => DB_USER,
 	'password' => DB_PASSWORD,
 	'name'     => DB_NAME,
+	'write'    => 1, // primary server takes write queries
+    'read'     => 2, // ... and read queries
 ));
 
 /**
  * This adds the same server again, only this time it is configured as a slave.
  * The last three parameters are set to the defaults but are shown for clarity.
  */
+/*
 $wpdb->add_database(array(
-	'host'     => 'db02',     // If port is other than 3306, use host:port.
-	'user'     => 'wordpress',
-	'password' => 'wordpress',
-	'name'     => 'wordpress',
+	'host'     => DB_HOST,     // If port is other than 3306, use host:port.
+	'user'     => DB_USER,
+	'password' => DB_PASSWORD,
+	'name'     => DB_NAME,
 	'write'    => 0,
 	'read'     => 1,
 	'dataset'  => 'global',
 	'timeout'  => 0.2,
+));
+ */
+
+/**
+ * Slave
+
+*/
+$wpdb->add_database(array(
+        'host'     => 'db02',     // If port is other than 3306, use host:port.
+        'user'     => DB_USER,
+        'password' => DB_PASSWORD,
+        'name'     => DB_NAME,
+        'write'    => 0,
+        'read'     => 1,
+        'dataset'  => 'global',
+        'timeout'  => '0.2',
 ));
 
 /** Sample Configuration 2: Partitioning **/
