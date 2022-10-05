@@ -7,16 +7,22 @@ stages:
   - test
   - deploy
 
+variables:
+    DOCKER_TLS_CERTDIR: ""
+
 test:
   image: docker:latest
   stage: test
+  tags:
+    - docker
   services:
-    - docker:stable-dind
+    - name: docker:dind
+      alias: docker
   script:
     - docker build -t $CI_PROJECT_NAME .
-    - docker run --rm -p 8080:80 -d $CI_PROJECT_NAME
+    - docker run -d --name $CI_PROJECT_NAME $CI_PROJECT_NAME
     - sleep 15
-    - wget -q --output-document - "http://docker:8080" | grep -q 'WordPress'
+    - docker exec $CI_PROJECT_NAME /bin/sh -c "wget -q --output-document - \"http://127.0.0.1\" | grep -q 'WordPress'"
 
 deploy:
   image: alpine:latest
@@ -26,12 +32,12 @@ deploy:
   script:
     - chmod og= $ID_RSA
     - apk update && apk add openssh-client
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo rm -rf /opt/$CI_PROJECT_NAME/src/*"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "git clone --single-branch -b main $CI_REPOSITORY_URL /opt/$CI_PROJECT_NAME/src"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker stop $CI_PROJECT_NAME || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker rmi $CI_PROJECT_NAME:old || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker tag $CI_PROJECT_NAME $CI_PROJECT_NAME:old || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker-compose up -d --build -f /opt/$CI_PROJECT_NAME/src/docker-compose.yml"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo rm -rf /opt/$CI_PROJECT_NAME/src"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo git clone --single-branch -b main $CI_REPOSITORY_URL /opt/$CI_PROJECT_NAME/src"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker stop $CI_PROJECT_NAME || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker rmi $CI_PROJECT_NAME:old || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker tag $CI_PROJECT_NAME $CI_PROJECT_NAME:old || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker-compose up -d --build -f /opt/$CI_PROJECT_NAME/src/docker-compose.yml"
   environment:
     name: production
     url: https://www.eladmin.ru

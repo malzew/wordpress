@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN ln -s /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime && \
     apt-get -y update && \
-    apt-get -y install apache2 php libapache2-mod-php php-mysql php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
+    apt-get -y install apache2 php libapache2-mod-php php-mysql php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip wget curl
 
 COPY ./wordpress.conf /etc/apache2/sites-available
 
