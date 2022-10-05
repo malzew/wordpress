@@ -51,3 +51,5 @@ id_rsa.pub
 /.idea/modules.xml
 /.idea/vcs.xml
 /terraform/help
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/wordpress.iml

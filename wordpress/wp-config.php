@@ -30,7 +30,6 @@ define( 'DB_PASSWORD', 'wordpress' );
 
 /** Database hostname */
 define( 'DB_HOST', 'db01' );
-define( 'DB_SLAVE', 'db02' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
