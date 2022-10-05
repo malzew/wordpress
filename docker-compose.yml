@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  wordpress:
+    build: .
+    image: wordpress
+    container_name: wordpress
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      ENV APACHE_LOG_DIR: /var/log/apache2
+    tmpfs:
+      - /var/log/apache2
+      - /tmp
+    volumes:
+      - /opt/wordpress/uploads:/var/www/wordpress/wp-content/uploads
