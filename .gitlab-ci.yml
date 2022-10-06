@@ -34,13 +34,13 @@ deploy:
   script:
     - chmod og= $ID_RSA
     - apk update && apk add openssh-client
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo rm -rf /opt/$CI_PROJECT_NAME/src"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo git clone --single-branch -b main $CI_REPOSITORY_URL /opt/$CI_PROJECT_NAME/src"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker stop $CI_PROJECT_NAME || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker rmi $CI_PROJECT_NAME:old || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker tag $CI_PROJECT_NAME $CI_PROJECT_NAME:old || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker rm $CI_PROJECT_NAME || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker-compose -f /opt/$CI_PROJECT_NAME/src/docker-compose.yml up -d --build --force-recreate"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "rm -rf /opt/$CI_PROJECT_NAME/src"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "git clone --single-branch -b main $CI_REPOSITORY_URL /opt/$CI_PROJECT_NAME/src"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker stop $CI_PROJECT_NAME || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker rmi $CI_PROJECT_NAME:old || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker tag $CI_PROJECT_NAME $CI_PROJECT_NAME:old || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker rm $CI_PROJECT_NAME || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker-compose -f /opt/$CI_PROJECT_NAME/src/docker-compose.yml up -d --build --force-recreate"
   environment:
     name: production
     url: https://www.eladmin.ru
