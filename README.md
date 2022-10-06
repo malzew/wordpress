@@ -1,3 +1,3 @@
-## Wordpress
+## wordpress
 
 Netology diplom wordpress repository
