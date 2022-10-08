@@ -43,6 +43,5 @@ deploy:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker-compose -f /opt/$CI_PROJECT_NAME/src/docker-compose.yml up -d --build --force-recreate"
   environment:
     name: production
-    url: https://www.eladmin.ru
   rules:
     - if: $CI_COMMIT_TAG != null

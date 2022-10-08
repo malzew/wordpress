@@ -220,7 +220,7 @@ $wpdb->add_database(array(
 	'password' => DB_PASSWORD,
 	'name'     => DB_NAME,
 	'write'    => 1, // primary server takes write queries
-    'read'     => 2, // ... and read queries
+    'read'     => 1, // ... and read queries
 ));
 
 /**
@@ -234,7 +234,7 @@ $wpdb->add_database(array(
 	'password' => DB_PASSWORD,
 	'name'     => DB_NAME,
 	'write'    => 0,
-	'read'     => 2,
+	'read'     => 3,
 	'dataset'  => 'global',
 	'timeout'  => 0.2,
 ));
@@ -249,7 +249,7 @@ $wpdb->add_database(array(
         'password' => DB_PASSWORD,
         'name'     => DB_NAME,
         'write'    => 0,
-        'read'     => 1,
+        'read'     => 2,
         'dataset'  => 'global',
         'timeout'  => 0.2,
 ));
